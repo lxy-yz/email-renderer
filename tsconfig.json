@@ -9,5 +9,9 @@
     "jsx": "react",
     "skipLibCheck": true,
     "esModuleInterop": true
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": true
   }
 }

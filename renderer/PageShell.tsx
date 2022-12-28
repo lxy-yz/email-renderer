@@ -17,6 +17,7 @@ function PageShell({ pageContext, children }: { pageContext: PageContext; childr
             <Link href="/markdown">Markdown</Link>
             <Link href="/star-wars">Data Fetching</Link>
             <Link href="/hello">Routing</Link>
+            <Link href="/email/render">Render Email</Link>
           </Sidebar>
           <Content>{children}</Content>
         </Layout>

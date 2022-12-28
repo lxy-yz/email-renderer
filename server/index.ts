@@ -1,10 +1,10 @@
 import express from "express";
 import { renderPage } from "vite-plugin-ssr";
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -14,9 +14,9 @@ startServer();
 
 async function startServer() {
   const app = express();
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
-  app.use(cookieParser())
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  app.use(cookieParser());
 
   let viteDevServer;
   if (isProduction) {
@@ -30,11 +30,14 @@ async function startServer() {
     app.use(viteDevServer.middlewares);
   }
 
-  app.get("*", async (req, res, next) => {
-    const pageContextInit = { urlOriginal: req.originalUrl }
-    const pageContext = await renderPage(pageContextInit)
-    if (pageContext.httpResponse === null) return next()
-    pageContext.httpResponse.pipe(res)
+  app.use("*", async (req, res, next) => {
+    const pageContextInit = {
+      urlOriginal: req.originalUrl,
+      data: req.body.data,
+    };
+    const pageContext = await renderPage(pageContextInit);
+    if (pageContext.httpResponse === null) return next();
+    pageContext.httpResponse.pipe(res);
   });
 
   const port = process.env.PORT || 3000;
